@@ -10,9 +10,13 @@ const styles = StyleSheet.create({
     fontSize: 17
   },
   list_item: {
-    padding: 20,
+    padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#f3f3f3'
+  },
+  list_item_content: {
+    flexDirection: "row",
+    justifyContent: "space-between"
   }
 });
 

@@ -6,6 +6,9 @@ import List from '../components/List';
 import progress_data from '../data/progress';
 
 export default class Progress extends React.Component {
+  static navigationOptions = ({navigation}) => ({
+    headerTitle: 'Progress',
+    });
 
   render() {
     return (

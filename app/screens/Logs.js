@@ -1,24 +1,54 @@
-import React from 'react';
-import { View, Text, TouchableHighlight, FlatList, StyleSheet } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableHighlight,
+  FlatList,
+  StyleSheet
+} from "react-native";
+import store from "react-native-simple-store";
+import list_styles from "../components/List/styles";
 
-import list_styles from '../components/List/styles';
+import IconButton from "../components/IconButton";
+import AlertBox from "../components/AlertBox";
 
-import logs_data from '../data/logs';
+import {
+  getDate,
+  lastWeeksDates,
+  getWorkoutsFromStorage,
+  getLogsData
+} from "../lib/general";
 
 export default class Logs extends React.Component {
+  state = {
+    logs_data: []
+  };
 
-  render() {
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: "Logs",
+    headerRight: (
+      <IconButton
+        size={25}
+        color="#FFF"
+        onPress={() => {
+          navigation.navigate("LogWorkout", {
+            date: getDate()
+          });
+        }}
+      />
+    )
+  });
+
+  renderItem({ item }) {
     return (
-      <FlatList data={logs_data} renderItem={this.renderItem} />
-    );
-  }
-
-
-  renderItem({item}) {
-    return (
-      <TouchableHighlight underlayColor="#ccc" onPress={() => {
-        console.log('pressed!');
-      }}>
+      <TouchableHighlight
+        underlayColor="#ccc"
+        onPress={() => {
+          this.props.navigation.navigate("LogWorkout", {
+            date: item.date
+          });
+        }}
+      >
         <View style={list_styles.list_item} key={item.key}>
           <View style={styles.date_container}>
             <Text style={styles.date_month}>{item.month}</Text>
@@ -33,8 +63,26 @@ export default class Logs extends React.Component {
     );
   }
 
-}
+  render() {
+    return (
+      <View>
+        <FlatList data={this.state.logs_data} renderItem={this.renderItem} />
+        {this.state.logs_data.length == 0 && (
+          <AlertBox type="info" text="You haven't logged any sessions yet." />
+        )}
+      </View>
+    );
+  }
 
+  componentDidMount = async () => {
+    const dates = lastWeeksDates();
+    const workouts = await getWorkoutsFromStorage(store, dates);
+
+    this.setState({
+      logs_data: getLogsData(workouts, dates)
+    });
+  };
+}
 
 const styles = StyleSheet.create({
   date_container: {
@@ -45,12 +93,12 @@ const styles = StyleSheet.create({
   },
   date_day: {
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: "bold"
   },
   exercises: {
     flex: 8
   },
   exercises_text: {
-    color: '#696969'
+    color: "#696969"
   }
 });
