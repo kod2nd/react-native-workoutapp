@@ -26,7 +26,8 @@ const renderItem = ({ item }) => {
 const renderPickerItems = data => {
   return data.map(item => {
     let val = item.name.toLowerCase();
-    return <Picker.Item key={item.key} label={item.name} value={val} />;
+    let id = (item.key) ? item.key : item.id;
+    return <Picker.Item key={id} label={item.name} value={id} />;
   });
 };
 

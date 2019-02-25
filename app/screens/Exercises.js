@@ -45,12 +45,10 @@ class Exercises extends React.Component {
   render() {
     const { params } = this.props.navigation.state;
     let routine = params.key
-    console.log("routine:",routine)
     let exercises = this.state.exercises_data.filter(item => {
       return item.routine == routine;
     });
 
-    console.log("filtered exercise:",exercises)
     return (
       <View>
         <Text style={list_styles.list_item_header}>{params.name}</Text>
@@ -72,7 +70,6 @@ class Exercises extends React.Component {
 
   componentDidMount = async () => {
     const response = await store.get("exercises");
-    console.log("I am the response", response)
     if (response) {
       this.setState({
         exercises_data: response

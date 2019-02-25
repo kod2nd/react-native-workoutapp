@@ -1,13 +1,14 @@
-import React from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
-import styles from './styles';
+import React from "react";
+import { View, Text, TouchableHighlight } from "react-native";
+import styles from "./styles";
 
-const SetContainer = (props) => {
-
+const SetContainer = props => {
   return (
-    <TouchableHighlight style={styles.set_container} onPress={() => {
-      console.log('pressed!');
-    }} underlayColor="#eee">
+    <TouchableHighlight
+      style={styles.set_container}
+      onPress={props.onPress}
+      underlayColor="#eee"
+    >
       <View style={styles.set_body}>
         <View style={styles.weight}>
           <Text style={styles.weight_text}>{props.weight}</Text>
@@ -18,6 +19,6 @@ const SetContainer = (props) => {
       </View>
     </TouchableHighlight>
   );
-}
+};
 
 export default SetContainer;

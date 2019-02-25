@@ -39,7 +39,7 @@ export default class Logs extends React.Component {
     )
   });
 
-  renderItem({ item }) {
+  renderItem = ({ item }) => {
     return (
       <TouchableHighlight
         underlayColor="#ccc"
@@ -77,7 +77,6 @@ export default class Logs extends React.Component {
   componentDidMount = async () => {
     const dates = lastWeeksDates();
     const workouts = await getWorkoutsFromStorage(store, dates);
-
     this.setState({
       logs_data: getLogsData(workouts, dates)
     });
