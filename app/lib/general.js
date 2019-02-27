@@ -26,7 +26,7 @@ const renderItem = ({ item }) => {
 const renderPickerItems = data => {
   return data.map(item => {
     let val = item.name.toLowerCase();
-    let id = (item.key) ? item.key : item.id;
+    let id = item.key ? item.key : item.id;
     return <Picker.Item key={id} label={item.name} value={id} />;
   });
 };
@@ -56,6 +56,7 @@ const getLocalDateTime = date => {
     ":" +
     minutes
   );
+  // Date format m/d/yyyy
 };
 
 const getDate = () => {
@@ -104,7 +105,7 @@ const getWorkoutsFromStorage = async (store, dates) => {
       return workout;
     }
   });
-}
+};
 
 const getLogsData = (workouts, dates) => {
   return workouts.map((workout_session, index) => {
@@ -129,8 +130,25 @@ const getLogsData = (workouts, dates) => {
 };
 
 const displayFirstNExercises = (exercises, numOfExercises) => {
-  return exercises.splice(0, numOfExercises).join(",") + "..."
-}
+  return exercises.splice(0, numOfExercises).join(",") + "...";
+};
+
+const getPathSafeDatetime = () => {
+  let datetime = getLocalDateTime(new Date())
+    .replace(/\//g, "-")
+    .replace(",", "")
+    .replace(/:/g, "_")
+    .replace(/ /g, "+");
+  return datetime;
+};
+
+const friendlyDate = str => {
+  let friendly_date = str
+    .replace(/-/g, "/")
+    .replace(/\+/g, " ")
+    .replace(/_/g, ":");
+  return friendly_date;
+};
 
 export {
   renderItem,
@@ -140,5 +158,7 @@ export {
   lastWeeksDates,
   getShortMonth,
   getLogsData,
-  getWorkoutsFromStorage
+  getWorkoutsFromStorage,
+  getPathSafeDatetime,
+  friendlyDate
 };
